@@ -6,8 +6,8 @@ const express = require('express'),
     mongoose = require('mongoose'),
     config = require('./DB');
 
-   const jobRoute = require('./routes/job.route');
-   const ascoRoute = require('./routes/asco.route');
+   const gummiRoute = require('./routes/gummi.route');
+   // const ascoRoute = require('./routes/asco.route');
 
     mongoose.Promise = global.Promise;
     mongoose.connect(config.DB, { useNewUrlParser: true }).then(
@@ -18,8 +18,8 @@ const express = require('express'),
     const app = express();
     app.use(bodyParser.json());
     app.use(cors());
-    app.use('/ascos', ascoRoute);
-    app.use('/jobs', jobRoute);
+    // app.use('/ascos', ascoRoute);
+    app.use('/gummis', gummiRoute);
 
     const port = process.env.PORT || 4001;
 
