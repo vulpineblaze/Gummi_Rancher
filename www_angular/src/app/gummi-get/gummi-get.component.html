@@ -1,1 +1,37 @@
-<p>gummi-get works!</p>
+
+<P>Hey, {{user.ofa}}</P>
+
+<table class="table table-hover">
+  <thead>
+  <tr>
+      <td>Gummi Name</td>
+      <td>Gummi Type</td>
+      <td>Gummi MakeAWish</td>
+      <td>Gummi Owner</td>
+      <td colspan="2">Actions</td>
+      <td>Pic</td>
+  </tr>
+  </thead>
+
+  <tbody>
+      <tr *ngFor="let gummi of gummis">
+          <td><a [routerLink]="['/edit', gummi._id]" class="btn btn-primary">
+          	{{ gummi.GummiName }}
+          </a></td>
+          <td>{{ gummi.GummiPrimary }} | {{ gummi.GummiSecondary }}</td>
+          <td>{{ gummi.GummiMakeAWish }}</td>
+          <td>{{ gummi.GummiOwner }}</td>
+          <td><a [routerLink]="['/merge', gummi._id]" class="btn btn-primary">
+          	Merge
+          </a></td>
+          <td><a [routerLink]="['/grind', gummi._id]" class="btn btn-primary">
+          	Grind
+          </a></td>
+          <td>
+          	<img *ngIf="gummi" src="../assets/{{ gummi.GummiPrimary }}_{{ gummi.GummiSecondary }}.png">
+          </td>	
+          
+      </tr>
+  </tbody>
+</table>
+

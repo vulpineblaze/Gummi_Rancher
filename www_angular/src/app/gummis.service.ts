@@ -10,9 +10,11 @@ export class GummisService {
 
   constructor(private http: HttpClient) { }
 
-  addGummi(GummiName) {
+  addGummi(GummiName, GummiMakeAWish, GummiOwner) {
     const obj = {
-      GummiName
+      GummiName,
+      GummiMakeAWish,
+      GummiOwner
     };
     this.http.post(`${this.uri}/add`, obj)
         .subscribe(res => console.log('Done'));

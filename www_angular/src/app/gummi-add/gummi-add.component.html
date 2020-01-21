@@ -1,4 +1,7 @@
 
+<P>Hey, {{user.ofa}}</P>
+
+
 <div class="card">
   <div class="card-body">
     <form [formGroup]="angForm" novalidate>
@@ -16,19 +19,21 @@
       </div>
 
       <div class="form-group">
-        <label class="col-md-4">Gummi Description </label>
-        <textarea class="form-control" rows = 7 cols = "5"
-        formControlName="GummiDescription" 
-        #GummiDescription></textarea>
+        <label class="col-md-4">Make a Wish on your Gummi!</label>
+        <input type="text" class="form-control" 
+          formControlName="GummiMakeAWish" 
+          #GummiMakeAWish />
       </div>
-      <div *ngIf="angForm.controls['GummiDescription'].invalid && (angForm.controls['GummiDescription'].dirty || angForm.controls['GummiDescription'].touched)" class="alert alert-danger">
-        <div *ngIf="angForm.controls['GummiDescription'].errors.required">
-          Gummi Description is required.
+      <div *ngIf="angForm.controls['GummiMakeAWish'].invalid && (angForm.controls['GummiMakeAWish'].dirty || angForm.controls['GummiMakeAWish'].touched)" class="alert alert-danger">
+        <div *ngIf="angForm.controls['GummiMakeAWish'].errors.required">
+          Gummi Name is required.
         </div>
       </div>
 
+      
+
       <div class="form-group">
-					<button (click) = "addGummi(GummiName.value, GummiDescription.value)" type="submit" class="btn btn-primary"
+					<button (click) = "addGummi(GummiName.value, GummiMakeAWish.value)" type="submit" class="btn btn-primary"
 					[disabled]="angForm.pristine || angForm.invalid" >
 				  Create Gummi
 				</button>

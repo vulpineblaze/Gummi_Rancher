@@ -54,6 +54,7 @@ npm install
 npm start  #after I edited package.json
 
 
+ng g c login --skipTests=true
 
 
 

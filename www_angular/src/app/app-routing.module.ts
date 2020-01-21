@@ -4,6 +4,7 @@ import { GummiAddComponent } from './gummi-add/gummi-add.component';
 import { GummiGetComponent } from './gummi-get/gummi-get.component';
 import { GummiGrindComponent } from './gummi-grind/gummi-grind.component';
 import { GummiMergeComponent } from './gummi-merge/gummi-merge.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
@@ -22,8 +23,12 @@ const routes: Routes = [
     path: 'gummis',
     component: GummiGetComponent
   },
-  { path: '',   redirectTo: '/gummis', pathMatch: 'full' },
-  { path: '**', redirectTo: '/gummis' }
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  { path: '',   redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({

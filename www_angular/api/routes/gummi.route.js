@@ -5,7 +5,7 @@ const express = require('express');
 const gummiRoutes = express.Router();
 
 // Require gummi model in our routes module
-let gummi = require('../models/gummi');
+let Gummi = require('../models/Gummi');
 // let Status = require('../models/Status');
 // let Corr = require('../models/Corr');
 // let Acl = require('../models/Acl');
@@ -13,19 +13,29 @@ let gummi = require('../models/gummi');
 // Defined store route
 gummiRoutes.route('/add').post(function (req, res) {
   // console.log("/add");
-  let gummi = new gummi(req.body);
+  let gummi = new Gummi(req.body);
+
+  var myBadHash = genBadHash(gummi.GummiMakeAWish);
+  console.log("myBadHash is: "+myBadHash);
+
+
+  gummi.GummiPrimary = gummiPickType(parseInt(myBadHash.slice(-9, -7))%3+1);
+  gummi.GummiSecondary = gummiPickType(parseInt(myBadHash.slice(-19, -17))%3+1);
+
   gummi.save()
     .then(gummi => {
-      res.status(200).json({'gummi': 'gummi has been added successfully'});
+      res.status(200).json({'Gummi': 'Gummi has been added successfully'});
     })
     .catch(err => {
-    res.status(400).send("unable to save to database");
+      res.status(400).send("unable to save to database");
     });
 });
 
+
+
 // Defined get data(index or listing) route
 gummiRoutes.route('/').get(function (req, res) {
-  gummi.find({}).exec((err, gummis) => {
+  Gummi.find({}).exec((err, gummis) => {
     if (err) return console.log(err)
 
     res.json(gummis);    
@@ -54,19 +64,19 @@ gummiRoutes.route('/').get(function (req, res) {
 // Defined gummi edit route
 gummiRoutes.route('/edit/:id').get(function (req, res) {
   let id = req.params.id;
-  gummi.findById(id, function (err, gummi){
+  Gummi.findById(id, function (err, gummi){
       res.json(gummi);
   });
 });
 
 //  Defined gummi update route
 gummiRoutes.route('/update/:id').post(function (req, res) {
-  gummi.findById(req.params.id, function(err, gummi) {
+  Gummi.findById(req.params.id, function(err, gummi) {
     if (!gummi)
       res.status(404).send("Record not found");
     else {
-      gummi.gummiName = req.body.gummiName;
-      gummi.gummiDescription = req.body.gummiDescription;
+      gummi.GummiName = req.body.gummiName;
+      // gummi.GummiDescription = req.body.GummiDescription;
 
       gummi.save().then(gummi => {
           res.json('Update complete');
@@ -142,9 +152,9 @@ gummiRoutes.route('/update/:id').post(function (req, res) {
 
 // Defined gummi delete | remove | destroy route
 gummiRoutes.route('/delete/:id').get(function (req, res) {
-    gummi.findByIdAndRemove({_id: req.params.id}, function(err, gummi){
+    Gummi.findByIdAndRemove({_id: req.params.id}, function(err, gummi){
         if(err) res.json(err);
-        else res.json('Successfully gummi removed');
+        else res.json('Successfully Gummi removed');
     });
 });
 
@@ -190,5 +200,97 @@ gummiRoutes.route('/delete/:id').get(function (req, res) {
 //     }
 //   });
 // });
+
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// function gummiPickPrimary() {
+//   var pick = randomIntFromInterval(1,3);
+  
+//   var i, text;
+//   for (i = 0; i < 20; i++) {
+//     text += " "+ randomIntFromInterval(1,3) +", ";
+//   }
+//   console.log(text);
+
+//   var type = "Derp";
+//   if(pick == 1){
+//     type = "Circle";
+//   }else if(pick == 2){
+//     type = "Square";
+//   }else{
+//     type = "Triangle";
+//   }
+//   return type;
+// }
+
+// function gummiPickSecondary(min, max) { 
+//   var pick = randomIntFromInterval(1,3);
+//   var type = "Derp";
+//   if(pick == 1){
+//     type = "Circle";
+//   }else if(pick == 2){
+//     type = "Square";
+//   }else{
+//     type = "Triangle";
+//   }
+//   return type;
+// }
+
+function gummiPickType(pick) { 
+  console.log("Pick is: " + pick);
+  if(pick == 1){
+    type = "Circle";
+  }else if(pick == 2){
+    type = "Square";
+  }else{
+    type = "Triangle";
+  }
+  return type;
+}
+
+function toThiccHex(wish) {
+  var pad = randomIntFromInterval(7,11);
+  var newStr = "";
+  var result = '';
+  for (var i=0; i<pad; i++) {
+    newStr += wish;
+  }
+  for (var i=0; i<newStr.length; i++) {
+    result += newStr.charCodeAt(i).toString(16) + i ;
+  }
+  return result;
+}
+
+function reduceBadHash(hashInt , digits){
+  // console.log("reduceBadHash: "+BigInt(hashInt)+", digits: "+BigInt(hashInt).toString().length);
+  BigInt(hashInt);
+  if(BigInt(hashInt).toString().length > digits && BigInt(hashInt) > 1){
+    hashInt = BigInt(hashInt) / BigInt(randomIntFromInterval(7,11));
+    return reduceBadHash(BigInt(hashInt) , digits); 
+  }else if(BigInt(hashInt).toString().length < digits && BigInt(hashInt) > 1){
+    hashInt = BigInt(hashInt) * BigInt(randomIntFromInterval(7,11));
+    return reduceBadHash(BigInt(hashInt) , digits); 
+  }else{
+    return BigInt(hashInt);
+  }
+  
+}
+
+function genBadHash(wish) {
+  var hex = toThiccHex(wish);
+  var hashInt = BigInt(parseInt(hex));
+  hashInt = reduceBadHash(hashInt, 64);
+  hashInt *= randomIntFromInterval(32307,100414);
+  hashInt = reduceBadHash(hashInt, 64);
+  hashInt *= new Date().getTime();
+  hashInt = reduceBadHash(hashInt, 64);
+  var myBadHash = hashInt.toString();
+  return myBadHash;
+}
+
+
+
 
 module.exports = gummiRoutes;
