@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { TableModule } from 'ngx-easy-table';
+
 
 // import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 // import { GoogleLoginProvider } from "angularx-social-login";
@@ -16,6 +18,7 @@ import { GummiGetComponent } from './gummi-get/gummi-get.component';
 import { GummiMergeComponent } from './gummi-merge/gummi-merge.component';
 import { GummiGrindComponent } from './gummi-grind/gummi-grind.component';
 import { LoginComponent } from './login/login.component';
+import { GummiDetailComponent } from './gummi-detail/gummi-detail.component';
 
 // let config = new AuthServiceConfig([
 //   {
@@ -35,14 +38,16 @@ import { LoginComponent } from './login/login.component';
     GummiGetComponent,
     GummiMergeComponent,
     GummiGrindComponent,
-    LoginComponent
+    LoginComponent,
+    GummiDetailComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SlimLoadingBarModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TableModule
   ],
   providers: [GummisService
   ],

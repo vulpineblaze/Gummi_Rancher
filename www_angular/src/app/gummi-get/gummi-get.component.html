@@ -4,22 +4,24 @@
 <table class="table table-hover">
   <thead>
   <tr>
-      <td>Gummi Name</td>
+      <td colspan="2">Gummi Name</td>
       <td>Gummi Type</td>
-      <td>Gummi MakeAWish</td>
+      <td>Gummi Status</td>
       <td>Gummi Owner</td>
       <td colspan="2">Actions</td>
-      <td>Pic</td>
   </tr>
   </thead>
 
   <tbody>
       <tr *ngFor="let gummi of gummis">
-          <td><a [routerLink]="['/edit', gummi._id]" class="btn btn-primary">
+      	<td>
+        	<img *ngIf="gummi" src="../assets/{{ gummi.GummiPrimary }}_{{ gummi.GummiSecondary }}.png">
+        </td>	
+          <td><a [routerLink]="['/detail', gummi._id]" class="btn btn-primary">
           	{{ gummi.GummiName }}
           </a></td>
           <td>{{ gummi.GummiPrimary }} | {{ gummi.GummiSecondary }}</td>
-          <td>{{ gummi.GummiMakeAWish }}</td>
+          <td>{{ gummi.GummiStatus }}</td>
           <td>{{ gummi.GummiOwner }}</td>
           <td><a [routerLink]="['/merge', gummi._id]" class="btn btn-primary">
           	Merge
@@ -27,11 +29,58 @@
           <td><a [routerLink]="['/grind', gummi._id]" class="btn btn-primary">
           	Grind
           </a></td>
-          <td>
-          	<img *ngIf="gummi" src="../assets/{{ gummi.GummiPrimary }}_{{ gummi.GummiSecondary }}.png">
-          </td>	
+          
           
       </tr>
   </tbody>
 </table>
 
+
+<ngx-table
+  [configuration]="configuration"
+  [data]="gummis"
+  #table
+  [detailsTemplate]="detailsTemplate"
+  [columns]="columns">
+  <ng-template let-row let-index="index">
+    <td>
+      <h5>{{row.GummiName}}</h5>
+    </td>
+    <td>
+      <span>Age: {{row.GummiLastFed}}</span>
+      <div class="bar bar-sm">
+        <div class="bar-item" role="progressbar" [style.width]="row.GummiLastFed + '%'" aria-valuenow="row.GummiLastFed" aria-valuemin="0"
+             aria-valuemax="70"></div>
+      </div>
+    </td>
+    <td>
+      <div>
+        Company: {{row.GummiOwner}}
+      </div>
+    </td>
+    <td>
+      <span class="mb-2">Supervisor: </span>
+      <strong>{{row.GummiPrimary}}</strong>
+    </td>
+    <td>
+      <span>Phone: {{row.GummiSecondary}}</span>
+    </td>
+    <td>
+      <div>{{row.GummiStatus}}</div>
+    </td>
+    <td>
+      <button class="btn btn-primary"
+              id="expandButton-{{index}}"
+              (click)="onRowClickEvent($event, index)">
+        <i class="icon icon-arrow-left" *ngIf="!toggledRows.has(index)"></i>
+        <i class="icon icon-arrow-down" *ngIf="toggledRows.has(index)"></i>
+        Expand
+      </button>
+    </td>
+  </ng-template>
+</ngx-table>
+<ng-template #detailsTemplate let-row>
+  <div>
+    {{row.GummiName }} - {{row.GummiOwner}}
+  </div>
+</ng-template>

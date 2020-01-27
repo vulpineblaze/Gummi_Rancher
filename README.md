@@ -55,7 +55,10 @@ npm start  #after I edited package.json
 
 
 ng g c login --skipTests=true
+ng g c gummi-detail --skipTests=true
 
+npm install @angular/cdk --save
+npm install ngx-easy-table --save
 
 
 

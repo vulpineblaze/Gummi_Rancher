@@ -15,6 +15,9 @@ declare var gapi: any;
 export class GummiAddComponent implements OnInit {
 
 	user: any = {};
+	gummi: any = {};
+	hasNoGummi: boolean = false;
+
 
   angForm: FormGroup;
   constructor(private fb: FormBuilder, 
@@ -34,17 +37,11 @@ export class GummiAddComponent implements OnInit {
   addGummi(GummiName, GummiMakeAWish) {
   	var GummiOwner = this.user.getEmail();
     this.ps.addGummi(GummiName, GummiMakeAWish, GummiOwner);
-    this.router.navigate(['gummis']);
+    this.router.navigate(['detail']);
   }
 
   ngOnInit() {
-  	var auth2;
-		var googleUser;
-		gapi.load('auth2', function(){
-	    auth2 = gapi.auth2.init({
-	        client_id: '498292554111-43rgrleo1mirru53r7ll2htqe86fcpco.apps.googleusercontent.com'
-	    });
-		}); 
+  	var auth2 = this.ps.auth2;
     if(auth2.isSignedIn.get()){
     	// var gUser = auth2.currentUser.get().getBasicProfile();
     	// console.log("gUser", gUser);
@@ -54,8 +51,18 @@ export class GummiAddComponent implements OnInit {
     	this.user = auth2.currentUser.get().getBasicProfile();
     	console.log("this.user", this.user);
 
+    	this.ps.myDetailGummi(this.user.getEmail()).subscribe(res => {
+      	console.log("my detail res:", res);
+        this.gummi = res;
+		        
+        if(!res){
+        	this.hasNoGummi = true;
+        }
+      });
+
     }else{
-    	console.log("auth failed");
+    	console.log("auth failed, nav to /login");
+	    this.router.navigate(['login']);
     }
   }
 

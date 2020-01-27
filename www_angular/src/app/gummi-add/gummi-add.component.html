@@ -2,8 +2,11 @@
 <P>Hey, {{user.ofa}}</P>
 
 
-<div class="card">
-  <div class="card-body">
+<div ng-show="gummi" class="card">
+  <div *ngIf="hasNoGummi; else elseBlock" class="card-body">
+  	
+
+
     <form [formGroup]="angForm" novalidate>
 
       <div class="form-group">
@@ -41,4 +44,5 @@
 
     </form>
   </div>
+  <ng-template #elseBlock>You've already got an Active Gummi!</ng-template>
 </div>

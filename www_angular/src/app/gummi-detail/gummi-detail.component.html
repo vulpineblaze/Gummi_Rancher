@@ -1,0 +1,70 @@
+
+<P>Hey, {{user.ofa}}</P>
+
+<div class="card">
+  <div *ngIf="hasGummi; else elseBlock" class="card-body">
+
+    
+  	<h1>
+  		Details for: {{ gummi.GummiName }}.
+  	</h1>
+
+  	<img *ngIf="gummi.GummiPrimary" src="../assets/{{ gummi.GummiPrimary }}_{{ gummi.GummiSecondary }}.png">
+
+
+  	<div class="row">
+	  <div class="column" style="background-color:#aaa;">
+	    <h2>Column 1</h2>
+	    <p>Some text..</p>
+	    <p>Owner: </p>
+	    <p>Last Fed: </p>
+	  </div>
+	  <div class="column" style="background-color:#bbb;">
+	    <h2>Column 2</h2>
+	    <p>Some text..</p>
+	    <p>{{gummi.GummiOwner}}</p>
+	    <p>{{gummi.GummiLastFed | date:'short'}}</p>
+	  </div>
+	</div>
+  	
+  	
+<!--   <script>
+        function v() {return Math.floor(Math.random() * 9999);}
+        document.write('<script src="../assets/phaser/main.js?dev=' +v()+ '"\><\/script>');
+        document.write('<script src="../assets/phaser/scenes.js?dev=' +v()+ '"\><\/script>');
+        document.write('<script src="../assets/phaser/globals.js?dev=' +v()+ '"\><\/script>');
+        // document.write('<script src="js/player.js?dev=' +v()+ '"\><\/script>');
+        // document.write('<script src="js/sounds.js?dev=' +v()+ '"\><\/script>');
+        // document.write('<script src="js/maps.js?dev=' +v()+ '"\><\/script>');
+        document.write('<script src="../assets/phaser/messages.js?dev=' +v()+ '"\><\/script>');
+        // document.write('<script src="js/monsters.js?dev=' +v()+ '"\><\/script>');
+    </script>
+
+    <p style="font-family: Anton"> </p>
+    <script type="text/javascript">
+        // window.onload = tester();
+    </script> -->
+
+
+    
+
+
+    <div class="container">
+
+
+
+        <!-- <div id="clicker"></div> -->
+        <div id="tester">slaaay</div>
+
+    </div>
+            
+
+  </div>
+  <ng-template #elseBlock>
+  	<p>You have no Active gummi. 
+	  	<a routerLink="gummi/create" class="nav-link" routerLinkActive="active">
+	      Create Gummi
+	    </a>
+	to make one!</p>
+  </ng-template>
+</div>

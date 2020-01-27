@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import Gummi from '../Gummi';
 import { GummisService } from '../gummis.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { API, APIDefinition } from 'ngx-easy-table';
 
 
 // import { AuthService } from "angularx-social-login";
@@ -21,70 +24,70 @@ const httpOptions = {
   styleUrls: ['./gummi-get.component.css']
 })
 export class GummiGetComponent implements OnInit {
+	@ViewChild('table', { static: true }) table: APIDefinition;
 
 	gummis: Gummi[];
 	user: any = {};
 	// givenName: string;
 	// private user: SocialUser;
  //  private loggedIn: boolean;
+ 	public configuration: Config;
+  public columns: Columns[];
+  public data: Gummi[] = [];
+  public toggledRows = new Set<number>();
 
-	constructor(private http: HttpClient, private ps: GummisService) { }
+	constructor(private http: HttpClient, 
+  				private router: Router, 
+					private ps: GummisService) { }
 
-	
 
   ngOnInit() {
-  	var auth2;
-		var googleUser;
-		gapi.load('auth2', function(){
-	    auth2 = gapi.auth2.init({
-	        client_id: '498292554111-43rgrleo1mirru53r7ll2htqe86fcpco.apps.googleusercontent.com'
+  	var auth2 = this.ps.auth2;
+    if(auth2.isSignedIn.get()){
+
+    	this.user = auth2.currentUser.get().getBasicProfile();
+    	// console.log("this.user", this.user);
+
+    	this.columns = [
+		    { key: 'GummiName', title: 'Name', width: '15%', orderEnabled: true, searchEnabled: true },
+		    { key: 'GummiPrimary', title: 'Primary', width: '15%', orderEnabled: true, searchEnabled: false },
+		    { key: 'GummiSecondary', title: 'Secondary', width: '15%', orderEnabled: true },
+		    { key: 'GummiOwner', title: 'Owner', width: '15%', orderEnabled: false },
+		    { key: 'GummiStatus', title: 'Status', width: '15%', orderEnabled: false },
+		    { key: 'GummiLastFed', title: 'Last Fed', width: '15%', orderEnabled: true },
+		    { key: '', title: 'Action', width: '5%', orderEnabled: false, searchEnabled: false },
+		  ];
+
+	    // this.data = data;
+	    this.configuration = { ...DefaultConfig };
+	    this.configuration.detailsTemplate = true;
+    	this.configuration.showDetailsArrow = false;
+
+    	this.ps
+	      .getMyGummis(this.user.getEmail())
+	      .subscribe((data: Gummi[]) => {
+	        this.gummis = data;
 	    });
-		}); 
-    this.ps
-      .getGummis()
-      .subscribe((data: Gummi[]) => {
-        this.gummis = data;
-        if(auth2.isSignedIn.get()){
-		    	// var gUser = auth2.currentUser.get().getBasicProfile();
-		    	// console.log("gUser", gUser);
-		    	// // this.givenName = gUser.getGivenName();
-		    	// this.givenName = "testtt";
-		    	// this.user = gUser;
-		    	this.user = auth2.currentUser.get().getBasicProfile();
-		    	console.log("this.user", this.user);
 
-		    }else{
-		    	console.log("auth failed");
-		    }
+    }else{
+    	console.log("auth failed, nav to /login");
+	    this.router.navigate(['login']);
+    }
+
+  }
+
+
+  onRowClickEvent($event: MouseEvent, index: number): void {
+    $event.preventDefault();
+    this.table.apiEvent({
+      type: API.toggleRowIndex,
+      value: index,
     });
-
-  // ngOnInit() {
-  // 	var auth2;
-		// var googleUser;
-  //   this.ps
-  //     .getGummis()
-  //     .subscribe((data: Gummi[]) => {
-  //       this.gummis = data;
-  //       gapi.load('auth2', function(){
-		// 	    auth2 = gapi.auth2.init({
-		// 	        client_id: '498292554111-43rgrleo1mirru53r7ll2htqe86fcpco.apps.googleusercontent.com'
-		// 	    });
-		// 	    if(auth2.isSignedIn.get()){
-		// 	    	var gUser = auth2.currentUser.get().getBasicProfile();
-		// 	    	console.log("gUser", gUser);
-		// 	    	// this.givenName = gUser.getGivenName();
-		// 	    	this.givenName = "testtt";
-		// 	    	this.user = gUser;
-		// 	    	console.log("this.user", this.user);
-
-		// 	    }else{
-		// 	    	console.log("auth failed");
-		// 	    }
-		// 		}); 
-  //   });
-    
-
-     
+    if (this.toggledRows.has(index)) {
+      this.toggledRows.delete(index);
+    } else {
+      this.toggledRows.add(index);
+    }
   }
 
 }

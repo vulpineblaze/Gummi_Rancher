@@ -24,9 +24,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/styles.scss",
+              "node_modules/ngx-easy-table/style.css",
+              "node_modules/typeface-montserrat/index.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/phaser/tester.js"
+            ]
           },
           "configurations": {
             "production": {

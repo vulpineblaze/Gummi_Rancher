@@ -4,12 +4,21 @@ import { GummiAddComponent } from './gummi-add/gummi-add.component';
 import { GummiGetComponent } from './gummi-get/gummi-get.component';
 import { GummiGrindComponent } from './gummi-grind/gummi-grind.component';
 import { GummiMergeComponent } from './gummi-merge/gummi-merge.component';
+import { GummiDetailComponent } from './gummi-detail/gummi-detail.component';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
     path: 'gummi/create',
     component: GummiAddComponent
+  },
+  {
+    path: 'detail/:id',
+    component: GummiDetailComponent
+  },
+  {
+    path: 'detail',
+    component: GummiDetailComponent
   },
   {
     path: 'grind/:id',

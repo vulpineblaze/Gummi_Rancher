@@ -23,7 +23,7 @@ export class GummiGrindComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.ps.editGummi(params['id']).subscribe(res => {
+      this.ps.detailGummi(params['id']).subscribe(res => {
         this.gummi = res;
       });
       

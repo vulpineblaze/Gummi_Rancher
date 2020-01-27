@@ -39,28 +39,29 @@ export class AppComponent {
   }
 
   ngOnInit() {
+  	
     // this.authService.authState.subscribe((user) => {
     //   this.user = user;
     //   this.loggedIn = (user != null);
     // });
-    var auth2;
-		var googleUser;
+  //   var auth2;
+		// var googleUser;
 
-    gapi.load('auth2', function(){
-		    auth2 = gapi.auth2.init({
-		        client_id: '498292554111-43rgrleo1mirru53r7ll2htqe86fcpco.apps.googleusercontent.com'
-		    });
-		    // auth2.attachClickHandler('signin-button', {}, onSuccess, onFailure);
+  //   gapi.load('auth2', function(){
+		//     auth2 = gapi.auth2.init({
+		//         client_id: '498292554111-43rgrleo1mirru53r7ll2htqe86fcpco.apps.googleusercontent.com'
+		//     });
+		//     // auth2.attachClickHandler('signin-button', {}, onSuccess, onFailure);
 
-		    // auth2.isSignedIn.listen(signinChanged);
-		    // auth2.currentUser.listen(userChanged); // This is what you use to listen for user changes
-		    if(auth2.isSignedIn.get()){
-		    	console.log("auth");
-		    	this.user = "something";
-		    }else{
-		    	console.log("auth failed");
-		    }
-		});  
+		//     // auth2.isSignedIn.listen(signinChanged);
+		//     // auth2.currentUser.listen(userChanged); // This is what you use to listen for user changes
+		//     if(auth2.isSignedIn.get()){
+		//     	console.log("auth");
+		//     	this.user = "something";
+		//     }else{
+		//     	console.log("auth failed");
+		//     }
+		// });  
   }
 
   // signInWithGoogle(): void {

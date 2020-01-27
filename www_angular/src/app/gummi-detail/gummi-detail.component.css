@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css?family=Anton&display=swap');
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+  /*height: 300px;  Should be removed. Only for demonstration */
+}
+
+.left {
+  width: 25%;
+}
+
+.right {
+  width: 75%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+img {
+  width: 30%;
+  height: auto;
+}
+
+body {
+            margin: 0;
+        }
+
+
+
+.container {
+	display: inline;
+}
+#myFB {
+    float: left;
+}
+#storm51 {
+    float: right;
+}
+
+
+

@@ -22,6 +22,9 @@ gummiRoutes.route('/add').post(function (req, res) {
   gummi.GummiPrimary = gummiPickType(parseInt(myBadHash.slice(-9, -7))%3+1);
   gummi.GummiSecondary = gummiPickType(parseInt(myBadHash.slice(-19, -17))%3+1);
 
+  gummi.GummiLastFed = Date.now();
+  gummi.GummiStatus = "Active";
+
   gummi.save()
     .then(gummi => {
       res.status(200).json({'Gummi': 'Gummi has been added successfully'});
@@ -36,6 +39,18 @@ gummiRoutes.route('/add').post(function (req, res) {
 // Defined get data(index or listing) route
 gummiRoutes.route('/').get(function (req, res) {
   Gummi.find({}).exec((err, gummis) => {
+    if (err) return console.log(err)
+
+    res.json(gummis);    
+  });
+});
+
+// Defined get data(index or listing) route
+gummiRoutes.route('/:owner').get(function (req, res) {
+  // var fixedOwner = window.atob(req.params.owner);
+  var fixedOwner = Buffer.from(req.params.owner, 'base64').toString();
+
+  Gummi.find({GummiOwner: fixedOwner}).exec((err, gummis) => {
     if (err) return console.log(err)
 
     res.json(gummis);    
@@ -61,11 +76,28 @@ gummiRoutes.route('/').get(function (req, res) {
 //   });
 // });
 
-// Defined gummi edit route
-gummiRoutes.route('/edit/:id').get(function (req, res) {
+// // Defined gummi edit route
+// gummiRoutes.route('/edit/:id').get(function (req, res) {
+//   let id = req.params.id;
+//   Gummi.findById(id, function (err, gummi){
+//       res.json(gummi);
+//   });
+// });
+
+// Defined gummi detail route
+gummiRoutes.route('/detail/:id').get(function (req, res) {
   let id = req.params.id;
   Gummi.findById(id, function (err, gummi){
       res.json(gummi);
+  });
+});
+
+gummiRoutes.route('/mydetail/:owner').get(function (req, res) {
+  let owner = req.params.owner;
+  Gummi.findOne({GummiOwner: owner, GummiStatus: "Active"}).exec((err, gummi) => {
+    if (err) return console.log(err)
+
+    res.json(gummi);    
   });
 });
 
@@ -75,7 +107,9 @@ gummiRoutes.route('/update/:id').post(function (req, res) {
     if (!gummi)
       res.status(404).send("Record not found");
     else {
-      gummi.GummiName = req.body.gummiName;
+      console.log("name",req.body.GummiName);
+      gummi.GummiName = req.body.GummiName;
+      gummi.GummiLastFed = Date.now();
       // gummi.GummiDescription = req.body.GummiDescription;
 
       gummi.save().then(gummi => {
@@ -282,9 +316,9 @@ function genBadHash(wish) {
   var hex = toThiccHex(wish);
   var hashInt = BigInt(parseInt(hex));
   hashInt = reduceBadHash(hashInt, 64);
-  hashInt *= randomIntFromInterval(32307,100414);
+  hashInt *= BigInt(randomIntFromInterval(32307,100414));
   hashInt = reduceBadHash(hashInt, 64);
-  hashInt *= new Date().getTime();
+  hashInt *= BigInt(new Date().getTime());
   hashInt = reduceBadHash(hashInt, 64);
   var myBadHash = hashInt.toString();
   return myBadHash;

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GummisService } from '../gummis.service';
 
 // import User from './User';
 
@@ -17,10 +18,20 @@ export class LoginComponent implements OnInit {
   
 
   constructor(private route: ActivatedRoute, 
+  							private ps: GummisService,
+  							private ngZone: NgZone,
                 private router: Router) { }
 
   ngOnInit() {
+  	var auth2;
+	  gapi.load('auth2', function(){
+	    auth2 = gapi.auth2.init({
+	        client_id: '498292554111-43rgrleo1mirru53r7ll2htqe86fcpco.apps.googleusercontent.com'
+	    });
+		}); 
+		this.ps.auth2 = auth2;
   }
+
 
   ngAfterViewInit() {
     gapi.signin2.render('my-signin2', {
@@ -29,7 +40,7 @@ export class LoginComponent implements OnInit {
         'height': 50,
         'longtitle': true,
         'theme': 'light',
-        'onsuccess': param => this.onSignIn(param)
+        'onsuccess': param => this.ngZone.run(() => this.onSignIn(param)) 
     });
 	}
 
@@ -60,7 +71,14 @@ export class LoginComponent implements OnInit {
 	    // this.user = googleUser; 
 	    // console.log(this.user);
 	    // this.user = "just trying";
-	  this.router.navigate(['gummis']);
+	  var auth2;
+	  gapi.load('auth2', function(){
+	    auth2 = gapi.auth2.init({
+	        client_id: '498292554111-43rgrleo1mirru53r7ll2htqe86fcpco.apps.googleusercontent.com'
+	    });
+		}); 
+		this.ps.auth2 = auth2;
+	  this.router.navigate(['detail']);
 	};
 
 }
