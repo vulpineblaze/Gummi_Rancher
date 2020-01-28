@@ -60,7 +60,23 @@ ng g c gummi-detail --skipTests=true
 npm install @angular/cdk --save
 npm install ngx-easy-table --save
 
+npm install bootstrap --save
 
+npm install --save-dev html-loader html-webpack-plugin style-loader ts-loader css-loader @angular-builders/custom-webpack
+npm install core-js
+
+npm install typeface-montserrat --save
+npm install to-string-loader angular2-template-loader --save
+
+npm install @angular/core@^8.2.10  rxjs@^6.5.3 jquery@1.9.1 - 3  popper.js@^1.16.0  @angular/core@^2.4.7 || ^4.0.0  --save
+npm install   rxjs jquery @popperjs/core  @angular/core  --save
+
+npm install ncu
+sudo npm i -g npm-check-updates
+ncu -u
+npm install
+
+npm uninstall ng2-slim-loading-bar rxjs-compat ; npm install ng2-slim-loading-bar rxjs-compat  --save
 
 
 
