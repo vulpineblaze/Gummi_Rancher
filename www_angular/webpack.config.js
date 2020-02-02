@@ -22,7 +22,8 @@ var webpackConfig = {
     {
       test: /\.css$/,
       use: [
-        'to-string-loader', 'css-loader',
+        // 'to-string-loader', 'css-loader',
+        'css-loader'
       ],
     },
     ]

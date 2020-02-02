@@ -78,7 +78,7 @@ npm install
 
 npm uninstall ng2-slim-loading-bar rxjs-compat ; npm install ng2-slim-loading-bar rxjs-compat  --save
 
-
+npm install --save-dev html-loader html-webpack-plugin style-loader ts-loader webpack webpack-cli webpack-dev-server angular2-template-loader css-loader to-string-loader
 
 
 
