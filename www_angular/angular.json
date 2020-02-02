@@ -11,12 +11,8 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "customWebpackConfig": {
-              "path": "./webpack.config.js",
-              "replaceDuplicatePlugins": true
-            },
             "outputPath": "dist/gummi",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -28,11 +24,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
               // "src/styles.scss",
-              // "node_modules/ngx-easy-table/style.css",
-              // "node_modules/typeface-montserrat/index.css",
-              // "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/ngx-easy-table/style.css",
+              "node_modules/typeface-montserrat/index.css"
             ],
             "scripts": [
               "src/assets/phaser/tester.js"
@@ -66,7 +61,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "gummi:build"
           },
