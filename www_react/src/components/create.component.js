@@ -56,6 +56,7 @@ export default class Create extends Component {
       owner: '',
       make_a_wish: ''
     })
+    this.props.history.push('/');
   }
  
   render() {

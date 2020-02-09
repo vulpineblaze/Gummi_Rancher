@@ -12,6 +12,8 @@ export default class Index extends Component {
   constructor(props) {
       super(props);
       this.state = {gummi: []};
+      this.tabRow = this.tabRow.bind(this); 
+
     }
     componentDidMount(){
       axios.get('gummi')
@@ -23,7 +25,7 @@ export default class Index extends Component {
         })
     }
     tabRow(){
-      return this.state.gummi.map(function(object, i){
+      return this.state.gummi.map((object, i) => {
           return <TableRow obj={object} key={i} />;
       });
     }

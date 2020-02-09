@@ -1,7 +1,7 @@
 // TableRow.js
 
 import React, { Component } from 'react';
-import { Link , useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 // const history = useHistory();
@@ -19,10 +19,10 @@ class TableRow extends Component {
           .then(console.log('Deleted'))
           .catch(err => console.log(err))
 
-      // this.props.history.push('/index');
+      this.props.history.push('/');
       // this.props.navigation.navigate("/index");
       // navigation.navigate("/index");
-      useHistory().push("/index");
+      // useHistory().push("/index");
 
       console.log("this.props",this.props);
   }
