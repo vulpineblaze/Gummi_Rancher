@@ -83,4 +83,34 @@ npm install --save-dev html-loader html-webpack-plugin style-loader ts-loader we
 
 
 
+#########################################3
+
+     RESTART USING REACTJS 
+
+##############################################
+
+npx create-react-app gummi
+cd gummi
+#npm start
+
+npm install bootstrap react-router-dom  --save
+
+sudo chown ubuntu ../gummi
+mkdir api ; cd api
+npm init -y
+
+npm install express body-parser cors mongoose --save
+npm install nodemon --save-dev
+#npx nodemon server # added to package.json under 'npm start'
+
+cd ..
+npm install axios --save
+
+## i think WinSCP is messing up my package.json
+npm install bootstrap react-router-dom axios --save
+
+
+
+
+
 ```

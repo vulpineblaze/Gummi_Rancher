@@ -1,6 +1,97 @@
+# # the IP(s) on which your node server is running. 
+# upstream gummi.fusionbombsderp.com {
+#     server 127.0.0.1:4201;
+#     keepalive 8;
+# }
+
+# # the nginx server instance
+# server {
+#     listen 0.0.0.0:80;
+#     server_name gummi.fusionbombsderp.com gummi;
+#     access_log /var/log/nginx/gummi.log;
+
+#     # pass the request to the node.js server with the correct headers
+#     # and much more can be added, see nginx config options
+#     location / {
+#       proxy_set_header X-Real-IP $remote_addr;
+#       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#       proxy_set_header Host $http_host;
+#       proxy_set_header X-NginX-Proxy true;
+#       proxy_http_version 1.1;
+#       proxy_set_header Upgrade $http_upgrade;
+#       proxy_set_header Connection "upgrade";
+#       proxy_pass http://gummi.fusionbombsderp.com/;
+#       proxy_redirect off;
+#     }
+#  }
+
+##################################################33
+
+# upstream gummi_4201 {
+#     server 127.0.0.1:4201;
+#     keepalive 8;
+# }
+# upstream gummi_4002 {
+#     server 127.0.0.1:4002;
+#     keepalive 8;
+# }
+# server {
+#     listen 0.0.0.0:80;
+#     server_name gummi_4201;
+#     root /var/www/gummi/;
+
+#     access_log /var/log/nginx/gummi_4201.log;
+
+#     # pass the request to the node.js server with the correct headers
+#     # and much more can be added, see nginx config options
+#     location / {
+#       proxy_set_header X-Real-IP $remote_addr;
+#       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#       proxy_set_header Host $http_host;
+#       proxy_set_header X-NginX-Proxy true;
+#       proxy_http_version 1.1;
+#       proxy_set_header Upgrade $http_upgrade;
+#       proxy_set_header Connection "upgrade";
+#       proxy_pass http://gummi_4201;
+#       proxy_redirect off;
+#     }
+# }
+# server {
+#     listen 0.0.0.0:80;
+#     server_name gummi_4002;
+#     root /var/www/gummi/api/;
+#     access_log /var/log/nginx/gummi_4002.log;
+
+#     # pass the request to the node.js server with the correct headers
+#     # and much more can be added, see nginx config options
+#     location / {
+#       proxy_set_header X-Real-IP $remote_addr;
+#       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#       proxy_set_header Host $http_host;
+#       proxy_set_header X-NginX-Proxy true;
+#       proxy_http_version 1.1;
+#       proxy_set_header Upgrade $http_upgrade;
+#       proxy_set_header Connection "upgrade";
+#       proxy_pass http://gummi_4002;
+#       proxy_redirect off;
+#     }
+# }
+
+###################################################################
+
+
 # the IP(s) on which your node server is running. 
-upstream gummi.fusionbombsderp.com {
+# upstream gummi.fusionbombsderp.com {
+#     server 127.0.0.1:4201;
+#     server 127.0.0.1:4002;
+#     keepalive 8;
+# }
+upstream gummi_4201 {
     server 127.0.0.1:4201;
+    keepalive 8;
+}
+upstream gummi_4002{
+    server 127.0.0.1:4002;
     keepalive 8;
 }
 
@@ -20,9 +111,41 @@ server {
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
-      proxy_pass http://gummi.fusionbombsderp.com/;
+      proxy_pass http://gummi_4201;
+      proxy_redirect off;
+    }
+
+    location /gummi/ {
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-NginX-Proxy true;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+      proxy_pass http://gummi_4002;
       proxy_redirect off;
     }
  }
 
 
+# # the nginx server instance
+# server {
+#     listen 0.0.0.0:80;
+#     server_name gummi.fusionbombsderp.com/gummi gummi/api;
+#     access_log /var/log/nginx/gummi_api.log;
+
+#     # pass the request to the node.js server with the correct headers
+#     # and much more can be added, see nginx config options
+#     location / {
+#       proxy_set_header X-Real-IP $remote_addr;
+#       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#       proxy_set_header Host $http_host;
+#       proxy_set_header X-NginX-Proxy true;
+#       proxy_http_version 1.1;
+#       proxy_set_header Upgrade $http_upgrade;
+#       proxy_set_header Connection "upgrade";
+#       proxy_pass http://gummi.fusionbombsderp.com:4002/gummi/;
+#       proxy_redirect off;
+#     }
+#  }
